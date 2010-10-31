@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<database name="quickstart" defaultIdMethod="native">
+ <table name="project" description="Project Table">
+  <column name="project_id" type="integer" primaryKey="true" autoIncrement="true" required="true" description="Project Id"/>
+  <column name="title" type="varchar" size="255" required="true" description="Project Title"/>
+  <column name="logo" type="varchar" size="255" required="false" description="Project Logo"/>
+  <column name="address" type="varchar" size="255" required="false" description="Project Address"/>
+  <column name="sale_office" type="varchar" size="255" required="false" description="Sale Office"/>
+  <column name="phone" type="varchar" size="255" required="false" description="Phone"/>
+  <column name="is_active" type="char" size="1" required="true" default="1" description="Is Active"/>
+ </table>
+ 
+ <table name="project_images" description="Project Images">
+  <column name="image_id" type="integer" required="true" primaryKey="true" autoIncrement="true" description="Image Id"/>
+  <column name="project_id" type="integer" required="true" description="Foreign Key for Project"/>
+  <column name="name" type="varchar" size="128" required="true" description="Image Name"/>
+  <column name="description" type="LONGVARCHAR" required="true" default="" description="Image Name"/>
+  <foreign-key foreignTable="project">
+   <reference local="project_id" foreign="project_id"/>
+  </foreign-key>
+ </table>
+</database>

@@ -1,0 +1,19 @@
+<h1><?php echo 'Register' ?>:</h1>
+
+<?php if (isset($this->globalPageError)) { ?>
+<div class="pageerror">
+    <?php 
+    if ($this->globalPageError == 'username') 
+    { 
+        echo 'This username is already registered, please choose another one.';
+    } else if ($this->globalPageError == 'email') 
+    {
+        echo 'This email address is already registered, please choose another one.'; 
+    } 
+    ?>
+
+
+</div>
+<? } ?>
+
+<?php echo $this->registerForm->render(); ?>

@@ -1,0 +1,19 @@
+<!--
+<?php if (count($this->paginator)): ?>
+<?php foreach ($this->paginator as $post ): ?>
+<div class="node">
+  <div class="title"><a href="<?php echo $this->baseUrl()."/node/view/id/".$post['id']; ?>"><?php echo $this->escape($post['title']); ?></a></div>
+  <div class="content"><?php echo nl2br( strip_tags( $post['content']) ); ?></div>
+</div>
+<?php endforeach; ?>
+<div class="pagination">
+    <?php echo $this->paginationControl($this->paginator,'Sliding', '/partials/pagination_control.phtml'); ?>
+</div>
+<?php endif; ?>
+-->
+<?php foreach($this->result as $node): ?>
+  <div class="node">
+    <div class="title"><a href="<?php echo $this->baseUrl()."/node/view/id/".$node->id; ?>"><?php echo $this->escape($node->title); ?></a></div>
+    <div class="content"><?php echo nl2br( strip_tags( $node->content) ); ?></div>
+  </div>    
+<?php endforeach; ?>

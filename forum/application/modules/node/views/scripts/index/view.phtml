@@ -1,0 +1,34 @@
+<div class="parent">
+  <div class="node">
+    <h2 class="title"><?php echo $this->node->title; ?></div>
+    <div class="dates">
+      <p class="created-at"><?php echo date("Y-m-d",$this->node->created_at);?></p>    
+      <p class="updated-at"><?php echo $this->node->updated_at; ?></p>    
+    </div>    
+    <p class="author"><a href="<?php echo $this->baseUrl()."/user/view/id/".$this->node->user_id; ?>"><?php echo $this->node->username;?></a></p>   
+    <div class="description"><?php echo $this->node->content;  ?></div>
+  </div>
+</div>
+<div class="childs">
+<?php foreach ($this->paginator as $child): ?>
+  <pre><?php //var_dump($child);?></pre>
+  <div class="node">
+    <h3 class="title">
+      <?php if($child['depth']<2):?>
+        <a href="<?php echo $this->baseUrl()."/node/view/id/".$child['id']; ?>"><?php echo $this->escape($child['title']); ?></a>
+      <?php else: ?>
+        <?php echo $this->escape($child['title']); ?>
+      <?php endif; ?>
+    </h3>
+    <div class="dates">
+      <p class="created-at"><?php echo date("Y-m-d",$child['created_at']);?></p>    
+      <p class="updated-at"><?php echo $child['updated_at']; ?></p>    
+    </div>    
+    <p class="author"><a href="<?php echo $this->baseUrl()."/user/view/id/".$child['user_id']; ?>"><?php echo $child['username'];?></a></p>   
+    <div class="content"><?php echo nl2br( strip_tags( $child['content']) ); ?></div>
+  </div>
+<?php endforeach; ?>
+</div>
+<div class="pagination">
+    <?php echo $this->paginationControl($this->paginator,'Sliding', '/partials/pagination_control.phtml'); ?>
+</div>

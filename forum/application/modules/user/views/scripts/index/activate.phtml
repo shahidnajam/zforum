@@ -1,0 +1,7 @@
+<?php if($this->activatedOK): ?>
+    <?php echo 'Thank you for your registration. Your account is now active.'; ?>
+<?php elseif ($this->userAlreadyActive): ?>
+    <?php echo 'This account is already active.'; ?>
+<?php else: ?>
+    <?php echo 'Bad activation code. If you have followed an email sent by us may be your registration is expired because you have not activated it for several days. You can register again if you wish.'; ?>
+<?php endif;  ?>
