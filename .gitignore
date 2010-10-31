@@ -1,0 +1,11 @@
+bin*
+demo*
+externals*
+extras*
+library*
+resources*
+tests*
+INSTALL.txt
+README.txt
+LICENSE.txt
+
