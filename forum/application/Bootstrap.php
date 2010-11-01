@@ -15,7 +15,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
 
         $frontController = Zend_Controller_Front::getInstance();
-        $frontController->setControllerDirectory(array('node'=>'modules/node', 'user'=>'modules/user'));
+        $frontController->setControllerDirectory(array('node'=>'modules/node', 'user'=>'modules/user'));        
         $route = new Zend_Controller_Router_Route(
             ':module/:action/*',
             array('controller'=>'index')

@@ -2,8 +2,8 @@
   <div class="node">
     <h2 class="title"><?php echo $this->node->title; ?></div>
     <div class="dates">
-      <p class="created-at"><?php echo date("Y-m-d",$this->node->created_at);?></p>    
-      <p class="updated-at"><?php echo $this->node->updated_at; ?></p>    
+      <p class="created-at"><i><?php echo date("Y-m-d H:i:s",$this->node->created_at);?></i></p>    
+      <p class="updated-at"><i><?php echo date("Y-m-d H:i:s",$this->node->updated_at); ?></i></p>    
     </div>    
     <p class="author"><a href="<?php echo $this->baseUrl()."/user/view/id/".$this->node->user_id; ?>"><?php echo $this->node->username;?></a></p>   
     <div class="description"><?php echo $this->node->content;  ?></div>
@@ -21,8 +21,8 @@
       <?php endif; ?>
     </h3>
     <div class="dates">
-      <p class="created-at"><?php echo date("Y-m-d",$child['created_at']);?></p>    
-      <p class="updated-at"><?php echo $child['updated_at']; ?></p>    
+      <p class="created-at"><i><?php echo date("Y-m-d H:i:s",$child['created_at']);?></i></p>    
+      <p class="updated-at"><i><?php echo date("Y-m-d H:i:s",$child['updated_at']); ?></i></p>    
     </div>    
     <p class="author"><a href="<?php echo $this->baseUrl()."/user/view/id/".$child['user_id']; ?>"><?php echo $child['username'];?></a></p>   
     <div class="content"><?php echo nl2br( strip_tags( $child['content']) ); ?></div>

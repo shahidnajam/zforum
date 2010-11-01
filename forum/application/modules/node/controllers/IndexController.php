@@ -5,16 +5,15 @@ class Node_IndexController extends Zend_Controller_Action
 
     public function init()
     {
-        /* Initialize action controller here */
     }
 
-    /*public function preDispatch()
+    public function preDispatch()
     {
         if( !Zend_Auth::getInstance()->hasIdentity() ) 
         {
             $this->_redirect('user/login');
         }
-    }*/
+    }
 
     public function indexAction()
     {
@@ -24,6 +23,7 @@ class Node_IndexController extends Zend_Controller_Action
 
     public function listAction()
     {
+        //var_dump($this->user);
         $nodeTable = new Node_Model_DbTable_Node();
         $query = $nodeTable->getTree()->having('depth = 0');
         $result = $nodeTable->fetchAll( $query );
@@ -37,7 +37,7 @@ class Node_IndexController extends Zend_Controller_Action
     }
 
     public function viewAction()
-    {
+    {    
         if( !$this->_hasParam('id') )
         {
           //$this->_forward('some-error', 'error');

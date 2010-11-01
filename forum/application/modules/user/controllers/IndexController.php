@@ -2,6 +2,9 @@
 
 class User_IndexController extends Zend_Controller_Action
 {
+    public function init()
+    {
+    }
     public function loginAction()
     {
         $loginForm = new User_Form_Login;
@@ -143,6 +146,17 @@ class User_IndexController extends Zend_Controller_Action
             // use 'user/justRegistered.phtml' template.
             $this->renderScript('user/justRegistered.phtml');
         }
+    }
+    public function viewAction()
+    {
+      if( !$this->_hasParam('id') )
+      {
+        $this->_helper->redirector('index');
+      }
+      $userId = (int)$this->_getParam('id');
+      $userTable = new User_Model_DbTable_Users();
+      $this->view->user = $userTable->fetchRow( $userId );
+      
     }
 
 
