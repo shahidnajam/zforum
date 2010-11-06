@@ -1,34 +1,40 @@
 <div class="parent">
   <div class="node">
-    <h2 class="title"><?php echo $this->node->title; ?></div>
+    <h2 class="title">
+        <?php echo $this->node->title; ?> 
+        <small>#<?php echo $this->node->id;?></small>
+    </h2>
     <div class="dates">
-      <p class="created-at"><i><?php echo date("Y-m-d H:i:s",$this->node->created_at);?></i></p>    
-      <p class="updated-at"><i><?php echo date("Y-m-d H:i:s",$this->node->updated_at); ?></i></p>    
+      <div class="dates">
+        <em><small>Created at: <span><?php echo date("Y-m-d H:i:s",$this->node->created_at);?></span></small></em>
+        <em><small>Updated at: <span><?php echo date("Y-m-d H:i:s",$this->node->updated_at); ?></span></small></em>
+      </div>   
     </div>    
-    <p class="author"><a href="<?php echo $this->baseUrl()."/user/view/id/".$this->node->user_id; ?>"><?php echo $this->node->username;?></a></p>   
+    <p class="author"><small><strong>Created by: <span><a href="<?php echo $this->baseUrl()."/user/view/id/".$this->node->user_id; ?>"><?php echo $this->node->username;?></a></span></strong></small></p>   
     <div class="description"><?php echo $this->node->content;  ?></div>
   </div>
 </div>
 <div class="childs">
 <?php foreach ($this->paginator as $child): ?>
   <pre><?php //var_dump($child);?></pre>
-  <div class="node">
+  <div class="node" id="child-node-<?php echo $child['id'];?>">
     <h3 class="title">
-      <?php if($child['depth']<2):?>
         <a href="<?php echo $this->baseUrl()."/node/view/id/".$child['id']; ?>"><?php echo $this->escape($child['title']); ?></a>
-      <?php else: ?>
-        <?php echo $this->escape($child['title']); ?>
-      <?php endif; ?>
+        <small>#<?php echo $child['id'];?></small>
     </h3>
     <div class="dates">
-      <p class="created-at"><i><?php echo date("Y-m-d H:i:s",$child['created_at']);?></i></p>    
-      <p class="updated-at"><i><?php echo date("Y-m-d H:i:s",$child['updated_at']); ?></i></p>    
+        <em><small>Created at: <span><?php echo date("Y-m-d H:i:s",$child['created_at']);?></span></small></em>
+        <em><small>Updated at: <span><?php echo date("Y-m-d H:i:s",$child['updated_at']); ?></span></small></em>
     </div>    
-    <p class="author"><a href="<?php echo $this->baseUrl()."/user/view/id/".$child['user_id']; ?>"><?php echo $child['username'];?></a></p>   
+    <p class="author"><small><strong>Created by: <span><a href="<?php echo $this->baseUrl()."/user/view/id/".$child['user_id']; ?>"><?php echo $child['username'];?></a></span></strong></small></p>   
     <div class="content"><?php echo nl2br( strip_tags( $child['content']) ); ?></div>
+    <hr />
   </div>
 <?php endforeach; ?>
 </div>
 <div class="pagination">
-    <?php echo $this->paginationControl($this->paginator,'Sliding', '/partials/pagination_control.phtml'); ?>
+    <?php echo $this->paginationControl($this->paginator,'Sliding', 'partials/pagination_control.phtml'); ?>
+</div>
+<div>
+  <a rel="clearboks" href="<?php echo $this->baseUrl()."/node/create/parent_id/".$this->node->id; ?>">Add node</a>
 </div>

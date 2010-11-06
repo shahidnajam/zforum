@@ -208,12 +208,6 @@ abstract class NP_Db_Table_NestedSet extends Zend_Db_Table
 		return $select;
 	}
 	
-	/**
-	 * Gets whole tree, including depth information.
-	 *
-	 * @param mixed An SQL WHERE clause or Zend_Db_Table_Select object.
-	 * @return array
-	 */
 	public function getTree( $depth = null )
 	{
 		$primary = $this->getAdapter()->quoteIdentifier($this->_primary[1]);
@@ -235,14 +229,6 @@ abstract class NP_Db_Table_NestedSet extends Zend_Db_Table
     return $select;
 	}
 	
-	/**
-     * Overriding insert() method defined by Zend_Db_Table_Abstract.
-     *
-	 * @param array Submitted data.
-	 * @param int|null Objective node id (optional).
-	 * @param string Position regarding on objective node (optional).
-	 * @return mixed
-     */
 	public function insert($data, $objectiveNodeId = null, $position = self::LAST_CHILD)
 	{
 		if (!$this->checkNodePosition($position)) {
@@ -250,20 +236,21 @@ abstract class NP_Db_Table_NestedSet extends Zend_Db_Table
 			throw new NP_Db_Table_NestedSet_Exception('Invalid node position is supplied.');
 		}
 		
+		$this->getAdapter()->query("LOCK TABLE $this->_name WRITE")->_execute();
 		$data = array_merge($data, $this->getLftRgt($objectiveNodeId, $position));
-		
-		return parent::insert($data);
+		try
+		{
+		    $result = parent::insert($data);
+		    $this->getAdapter()->query("UNLOCK TABLES")->_execute();
+		}
+		catch(Zend_Db_Statement_Exception $e)
+        {
+            $result = false;
+            throw $e;
+        }
+	    return $result;
 	}
-	
-	/**
-     * Updates info of some node.
-     *
-	 * @param array Submitted data.
-	 * @param int Id of a node that is being updated.
-	 * @param int Objective node id.
-	 * @param string Position regarding on objective node.
-	 * @return mixed
-     */
+
 	public function updateNode($data, $id, $objectiveNodeId, $position = self::LAST_CHILD)
 	{
 		$id = (int)$id;

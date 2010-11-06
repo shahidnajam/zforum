@@ -28,7 +28,7 @@ $acl->add(new Zend_Acl_Resource('node'))
     ->allow('member', 'node','list')
     ->allow('member', 'node','view')
     ->allow('member', 'node','edit')
-    ->allow('member', 'node','add')
+    ->allow('member', 'node','create')
     ->allow('redactor', 'node','delete')
     ->allow('member', 'user','view');
 

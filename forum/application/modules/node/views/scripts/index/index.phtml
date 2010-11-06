@@ -13,7 +13,7 @@
 -->
 <?php foreach($this->result as $node): ?>
   <div class="node">
-    <div class="title"><a href="<?php echo $this->baseUrl()."/node/view/id/".$node->id; ?>"><?php echo $this->escape($node->title); ?></a></div>
+    <h2 class="title"><a href="<?php echo $this->baseUrl()."/node/view/id/".$node->id; ?>"><?php echo $this->escape($node->title); ?></a> <small>#<?php echo $node->id;?></small></h2>
     <div class="content"><?php echo nl2br( strip_tags( $node->content) ); ?></div>
   </div>    
 <?php endforeach; ?>
