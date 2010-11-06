@@ -1,15 +1,7 @@
 <?php
 include_once('Zend/Db/Table.php');
-
-/**
- * Abstract class that extends capabilities of Zend_Db_Table 
- * class, providing API for managing some Nested set table in 
- * database.
- *
- * @author Nikola Posa <posa.nikola@gmail.com>
- * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License
- */
 require_once('NestedSet/Exception.php');
+
 abstract class NP_Db_Table_NestedSet extends Zend_Db_Table
 {
 	const FIRST_CHILD  = 'firstChild';
@@ -20,11 +12,6 @@ abstract class NP_Db_Table_NestedSet extends Zend_Db_Table
 	const LEFT_TBL_ALIAS  = 'node';
 	const RIGHT_TBL_ALIAS = 'parent';
 	
-	/**
-     * Valid objective node positions.
-     *
-     * @var array
-     */
 	protected $_validPositions = array(
 		self::FIRST_CHILD, 
 		self::LAST_CHILD, 
@@ -235,19 +222,22 @@ abstract class NP_Db_Table_NestedSet extends Zend_Db_Table
 			include_once('NP/Db/Table/NestedSet/Exception.php');
 			throw new NP_Db_Table_NestedSet_Exception('Invalid node position is supplied.');
 		}
-		
+		$result = false;
 		$this->getAdapter()->query("LOCK TABLE $this->_name WRITE")->_execute();
-		$data = array_merge($data, $this->getLftRgt($objectiveNodeId, $position));
-		try
+		if(parent::fetchRow('id = ' . $objectiveNodeId))
 		{
-		    $result = parent::insert($data);
-		    $this->getAdapter()->query("UNLOCK TABLES")->_execute();
-		}
-		catch(Zend_Db_Statement_Exception $e)
-        {
-            $result = false;
-            throw $e;
+		    $data = array_merge($data, $this->getLftRgt($objectiveNodeId, $position));
+		    try
+		    {
+		        $result = parent::insert($data);
+		        
+		    }
+		    catch(Zend_Db_Statement_Exception $e)
+            {
+                throw $e;
+            }
         }
+        $this->getAdapter()->query("UNLOCK TABLES")->_execute();
 	    return $result;
 	}
 
