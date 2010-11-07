@@ -4,6 +4,11 @@ class Node_IndexController extends Zend_Controller_Action
 {
     public function init()
     {
+        Zend_Loader::loadClass('Zend_Http_Client');
+        Zend_Loader::loadClass('Zend_Auth');
+        $this->identities     = Zend_Auth::getInstance()->getIdentity();
+        $this->client = new Zend_Http_Client;
+        $this->view->setEncoding('UTF-8');
     }
     public function preDispatch()
     {
@@ -34,13 +39,12 @@ class Node_IndexController extends Zend_Controller_Action
         {
             if ( $nodeForm->isValid($this->getRequest()->getPost()) ) 
             {
-                Zend_Loader::loadClass('Zend_Auth');
                 $title          = $this->getRequest()->getPost('title');
                 $content        = $this->getRequest()->getPost('content');
                 $nodeTable      = new Node_Model_DbTable_Node();
                 $parentId       = null;
-                $identities     = Zend_Auth::getInstance()->getIdentity();
-                $userId         = $identities['id'];
+                
+                $userId         = $this->identities['id'];
                 if( $this->_hasParam('parent_id') )
                 {
                     $parentId = (int)$this->_getParam('parent_id');
@@ -59,7 +63,7 @@ class Node_IndexController extends Zend_Controller_Action
                 }
                 else
                 {
-                    $this->_redirect('default/error');
+                    $this->_redirect('error/error');
                 }
             }
         }
@@ -68,6 +72,9 @@ class Node_IndexController extends Zend_Controller_Action
     }
     public function editAction()
     {
+        $this->client->setHeaders(array(
+            'Content-type: text/html; charset=utf-8',
+        ));
         $nodeForm = new Node_Form_Node;
         //$redirect = $this->getRequest()->getParam('redirect', 'node/index');
         //$nodeForm->setAttrib('redirect', $redirect );
@@ -78,16 +85,16 @@ class Node_IndexController extends Zend_Controller_Action
         }
         else
         {
-            $this->_redirect('default/error');
+            $this->_redirect('error/error');
         }
         $nodeTable = new Node_Model_DbTable_Node();
         $nodeData = $nodeTable->fetchRow( 'id='.$nodeId )->toArray();
         Zend_Loader::loadClass('Zend_Auth');
         $identities = Zend_Auth::getInstance()->getIdentity();
         $userId = $identities['id'];
-        if( $nodeData['created_by'] != $userId)
+        if( (int)$nodeData['created_by'] != (int)$userId)
         {
-            $this->_redirect('default/error/permission');
+            $this->_redirect('error/permission');
         }
         if ($this->getRequest()->isPost()) 
         {
@@ -112,7 +119,7 @@ class Node_IndexController extends Zend_Controller_Action
                 }
                 else
                 {
-                    $this->_redirect('default/error');
+                    $this->_redirect('error/error');
                 }
             } 
             else
@@ -126,7 +133,7 @@ class Node_IndexController extends Zend_Controller_Action
             $nodeForm->populate( $nodeData );
         }
         $this->view->nodeForm = $nodeForm;
-        $this->_helper->layout->disableLayout();
+        //$this->_helper->layout->disableLayout();
     }
     public function viewAction()
     {    
@@ -135,6 +142,7 @@ class Node_IndexController extends Zend_Controller_Action
         {
           $this->_helper->redirector('index');
         }
+        $this->view->user = $this->identities;
         $nodeId    = (int)$this->_getParam('id');
         $nodeTable = new Node_Model_DbTable_Node();
         $query     = $nodeTable->getTree()

@@ -10,6 +10,10 @@ class User_IndexController extends Zend_Controller_Action
         $loginForm = new User_Form_Login;
         $redirect = $this->getRequest()->getParam('redirect', 'node/index');
         $loginForm->setAttrib('redirect', $redirect );
+        //$group = new Zend_Form_Element_Text('group');
+         //$loginForm->addElement($group);
+         //$group->setLabel('Group');
+         //$loginForm->addDisplayGroup(array('group'), 'groups', array("legend" => "Group Add"));
         $auth = Zend_Auth::getInstance();
         if(Zend_Auth::getInstance()->hasIdentity()) 
         {

@@ -4,6 +4,7 @@ class Node_Form_Node extends Zend_Form
     public function __construct( $options = null )
     {
         parent::__construct($options);
+        $this->setAttrib('accept-charset', 'utf-8');
         $this->setName('Node');
         $title = new Zend_Form_Element_Text('title');
         $title->setLabel('Title')

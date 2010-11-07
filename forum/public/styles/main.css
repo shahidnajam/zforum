@@ -1,4 +1,4 @@
-body{background: #fff;font-size: 62.5%;font-family: "Lucida Sans"}
+body{background: #fff;font-size: 62.5%;font-family: Verdana}
 h2 small{display: none}
 h3 small{display: none}
 h2:hover small, h3:hover small{display: inline}
@@ -9,3 +9,11 @@ h2:hover small, h3:hover small{display: inline}
 .childs .node p.author{ color: #333;font-size: 1.2em;}
 .childs .node div.content{font-size: 1.2em;}
 .childs hr{display: none;}
+
+form{width: 90%;clear: both;}
+form fieldset {border-radius: 15px;width:90%;display: block;margin: 0 auto;border: 1px solid #ccf;background: #eee}
+form fieldset legend{font-weight: 600;font-size: 1.2em;color: #333;padding: 0 1%;}
+input{font-size: 1.2em;border: 1px solid #356AA0}
+input:focus{background: #FFFF88}
+label{font-size: 1.2em;color: #356AA0}
+#submitbutton{background: #006e2e;color: #fff;font-size: 1.4em;border: none;}

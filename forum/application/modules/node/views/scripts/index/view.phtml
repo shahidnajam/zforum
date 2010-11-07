@@ -28,9 +28,14 @@
     </div>    
     <p class="author"><small><strong>Created by: <span><a href="<?php echo $this->baseUrl()."/user/view/id/".$child['user_id']; ?>"><?php echo $child['username'];?></a></span></strong></small></p>   
     <div class="content"><?php echo nl2br( strip_tags( $child['content']) ); ?></div>
-    <div class="navigation">
-        <a rel="clearbox" href="<?php echo $this->baseUrl()."/node/edit/id/".$child['id']; ?>">Edit</a>
-    </div>
+    <?php if($this->user['id'] == $child['user_id']): ?>
+        <div class="navigation">
+            <ul>
+                <li><a href="<?php echo $this->baseUrl()."/node/edit/id/".$child['id']; ?>">Edit</a></li> 
+                <li><a href="<?php echo $this->baseUrl()."/node/delete/id/".$child['id']; ?>">Delete</a></li>
+            </ul>
+        </div>
+    <?php endif; ?>
     <hr />
   </div>
 <?php endforeach; ?>
@@ -39,5 +44,5 @@
     <?php echo $this->paginationControl($this->paginator,'Sliding', 'partials/pagination_control.phtml'); ?>
 </div>
 <div>
-  <a rel="clearbox" href="<?php echo $this->baseUrl()."/node/create/parent_id/".$this->node->id; ?>">Add node</a>
+  <a href="<?php echo $this->baseUrl()."/node/create/parent_id/".$this->node->id; ?>">Add node</a>
 </div>

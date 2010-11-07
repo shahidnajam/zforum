@@ -7,15 +7,11 @@
   <?php echo $this->headScript() ?> 
   <?php echo $this->headStyle() ?>
   <?php echo $this->headScript()->appendFile('/scripts/jquery-1.4.3.min.js','text/javascript');?>
-  <?php echo $this->headScript()->appendFile('/scripts/clearbox.js','text/javascript');?>
   <?php echo $this->headLink()->appendStylesheet('/styles/main.css') ?>
-  <script type="text/javascript" src="/scripts/clearbox/config/default/cb_config.js"></script>
-  <script type="text/javascript" src="/scripts/clearbox/language/en/cb_language.js"></script>
-  <script type="text/javascript" src="/scripts/clearbox/core/cb_core.js"></script>
-  <link rel="stylesheet" type="text/css" href="/scripts/clearbox/config/default/cb_style.css">
 </head>
 <body>
 <div id="header">
+    <h1>Infinity</h1>
     <div id="header-navigation" style="float: right">
         <a href="<?php echo $this->url(
             array('controller'=>'node'),
@@ -25,6 +21,8 @@
 </div>
  
 <?php echo $this->layout()->content ?>
- 
+<div class="footer">
+    <img src="http://framework.zend.com/images/PoweredBy_ZF_4LightBG.png" alt="Powered with" />
+</div>
 </body>
 </html>

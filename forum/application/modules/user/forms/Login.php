@@ -5,14 +5,15 @@ class User_Form_Login extends Zend_Form
     {
         parent::__construct($options);
         $this->setName('UserLogin');
+        $this->setLegend('lala');
         $username = new Zend_Form_Element_Text('username');
-        $username->setLabel('User Name')
+        $username->setLabel('User Name:')
                 ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
                 ->addValidator('NotEmpty');
         $pass = new Zend_Form_Element_Password('pass');
-        $pass->setLabel('Password')
+        $pass->setLabel('Password:')
                 ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
@@ -21,5 +22,6 @@ class User_Form_Login extends Zend_Form
         $redirect = new Zend_Form_Element_Hidden('redirect');
         $submit->setAttrib('id', 'submitbutton');
         $this->addElements( array ( $username, $pass, $submit));
+        $this->addDisplayGroup(array('username','pass','submit'), 'fields', array("legend" => "Login"));
     }
 }
