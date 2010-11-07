@@ -1,3 +1,11 @@
+body{background: #fff;font-size: 62.5%;font-family: "Lucida Sans"}
 h2 small{display: none}
 h3 small{display: none}
 h2:hover small, h3:hover small{display: inline}
+.childs{margin-left: 2%;}
+.childs .node{padding: 1% 2%; border: 1px solid #cccccc;background: #efefef}
+.childs .node h3.title{ font-size: 1.4em;}
+.childs .node div.dates{ color: #666666;font-size: 1.2em;}
+.childs .node p.author{ color: #333;font-size: 1.2em;}
+.childs .node div.content{font-size: 1.2em;}
+.childs hr{display: none;}

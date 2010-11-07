@@ -48,7 +48,7 @@ else
 {
   $role = 'guest';
 }
-$frontController->registerPlugin(new Forum_Controller_Plugin_Acl($acl, $role));
+//$frontController->registerPlugin(new Forum_Controller_Plugin_Acl($acl, $role));
 
 Zend_Loader::loadClass('Zend_Application');
 $application = new Zend_Application(

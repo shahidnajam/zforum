@@ -53,11 +53,77 @@ class Node_IndexController extends Zend_Controller_Action
                     'created_by' => $userId
                 );
 
-                $nodeTable->insert($nodeData,$parentId,Node_Model_DbTable_Node::LAST_CHILD);
-
-                $this->_redirect('node/view/id/'.$parentId);
-                return;
+                if( $noddeId = $nodeTable->insert($nodeData,$parentId,Node_Model_DbTable_Node::LAST_CHILD))
+                {
+                    $this->_redirect('node/view/id/'.$nodeId);
+                }
+                else
+                {
+                    $this->_redirect('default/error');
+                }
             }
+        }
+        $this->view->nodeForm = $nodeForm;
+        $this->_helper->layout->disableLayout();
+    }
+    public function editAction()
+    {
+        $nodeForm = new Node_Form_Node;
+        //$redirect = $this->getRequest()->getParam('redirect', 'node/index');
+        //$nodeForm->setAttrib('redirect', $redirect );
+        
+        if( $this->_hasParam('id') )
+        {
+            $nodeId = (int)$this->_getParam('id');
+        }
+        else
+        {
+            $this->_redirect('default/error');
+        }
+        $nodeTable = new Node_Model_DbTable_Node();
+        $nodeData = $nodeTable->fetchRow( 'id='.$nodeId )->toArray();
+        Zend_Loader::loadClass('Zend_Auth');
+        $identities = Zend_Auth::getInstance()->getIdentity();
+        $userId = $identities['id'];
+        if( $nodeData['created_by'] != $userId)
+        {
+            $this->_redirect('default/error/permission');
+        }
+        if ($this->getRequest()->isPost()) 
+        {
+            $formData = $this->getRequest()->getPost();
+            if ( $nodeForm->isValid($this->getRequest()->getPost()) ) 
+            {
+                
+                $title          = $this->getRequest()->getPost('title');
+                $content        = $this->getRequest()->getPost('content');
+                $nodeTable      = new Node_Model_DbTable_Node();
+                
+                $nodeData = array(
+                    'title'      => $title,
+                    'content'    => $content,
+                    'updated_at' => date("Y-m-d H:i:s"),
+                    'created_by' => $userId
+                );
+
+                if( $nodeTable->update($nodeData, 'id='.$nodeId) )
+                {
+                    $this->_redirect('node/view/id/'.$nodeId);
+                }
+                else
+                {
+                    $this->_redirect('default/error');
+                }
+            } 
+            else
+            {
+                $nodeForm->populate($formData);
+            }
+
+        }
+        else 
+        {
+            $nodeForm->populate( $nodeData );
         }
         $this->view->nodeForm = $nodeForm;
         $this->_helper->layout->disableLayout();
